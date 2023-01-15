@@ -1,9 +1,12 @@
-import create from '../models/productModel';
+import { create, readAll } from '../models/productModel';
 import { Product } from '../interfaces';
 
-const saveProductsService = async (product: Product) => {
+export const saveProductsService = async (product: Product) => {
   const newProduct = await create(product);
   if (product) return newProduct;
 };
 
-export default saveProductsService;
+export const readProductsServices = async () => {
+  const allProducts = await readAll();
+  if (allProducts) return allProducts[0];
+};

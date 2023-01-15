@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
+import { ResultSetHeader } from 'mysql2';
 import statusCodes from '../statusCodes';
 import { Product } from '../interfaces';
-import saveProductsService from '../services/productServices';
+import { readProductsServices, saveProductsService } from '../services/productServices';
 
-const saveProducts = async (req: Request, res: Response) => {
+export const saveProducts = async (req: Request, res: Response) => {
   const product: Product = req.body;
   try {
     const newProduct = await saveProductsService(product);
@@ -13,4 +14,11 @@ const saveProducts = async (req: Request, res: Response) => {
   }
 };
 
-export default saveProducts;
+export const readProducts = async (_req: Request, res: Response) => {
+  try { 
+    const allProducts: ResultSetHeader | undefined = await readProductsServices();
+    res.status(statusCodes.OK).json(allProducts);
+  } catch (error) {
+    console.log(error);
+  }
+};
